@@ -1,2 +1,1 @@
-from pm4pytool import obj_synthesis, representation, mapping
-
+from pm4pytool import objects, mapping
