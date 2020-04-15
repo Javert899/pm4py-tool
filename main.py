@@ -19,16 +19,16 @@ def real_execute(method, args, kwargs):
     if type(after_exec) is tuple or type(after_exec) is list:
         for obj in after_exec:
             Mapping.obj_map[str(id(obj))] = after_exec
-            obj_dict = {str(id(obj)): mapping.synth_obj(obj)}
-            res["objects"].append(obj_dict)
+            obj_map = [str(id(obj)), mapping.synth_obj(obj)]
+            res["objects"].append(obj_map)
         Mapping.obj_map[str(id(after_exec))] = after_exec
         syn = mapping.synth_algo(method, after_exec)
-        res["algoResult"] = {str(id(after_exec)): {"type": syn[0], "repr": syn[1]}}
+        res["algoResult"] = [str(id(after_exec)), {"type": syn[0], "repr": syn[1]}]
     else:
         Mapping.obj_map[str(id(after_exec))] = after_exec
-        obj_dict = {str(id(after_exec)): mapping.synth_obj(after_exec)}
-        res["objects"].append(obj_dict)
-        res["algoResult"] = {str(id(after_exec)): {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec)["repr"]}}
+        obj_map = [str(id(after_exec)), mapping.synth_obj(after_exec)]
+        res["objects"].append(obj_map)
+        res["algoResult"] = [str(id(after_exec)), {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec)["repr"]}]
     return res
 
 

@@ -16,7 +16,11 @@ function AjaxCall(url, data) {
       return res;
 }
 
-function Execute(method, args, kwargs) {
-    let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs});
-    return res.responseJSON;
+function Execute(method, args, kwargs, retAlgo=false) {
+    let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs}).responseJSON;
+    for (let idx in res["objects"]) {
+        objMapping[res["objects"][idx][0]] = res["objects"][idx][1];
+    }
+    algoMapping[res["algoResult"][0]] = res["algoResult"][1];
+    return res;
 }
