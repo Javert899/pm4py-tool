@@ -14,5 +14,10 @@
           </template>
         </div>
         <script type="text/javascript" src="js/app-main.js"></script>
+        <script type="text/javascript" src="js/pm4py-calls.js"></script>
+        <script type="text/javascript">
+            let res = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
+            console.log(res);
+        </script>
     </body>
 </html>

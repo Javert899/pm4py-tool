@@ -23,12 +23,12 @@ def real_execute(method, args, kwargs):
             res["objects"].append(obj_dict)
         Mapping.obj_map[str(id(after_exec))] = after_exec
         syn = mapping.synth_algo(method, after_exec)
-        res["algoResult"] = {"id": str(id(after_exec)), "type": syn[0], "descr": syn[1]}
+        res["algoResult"] = {str(id(after_exec)): {"type": syn[0], "repr": syn[1]}}
     else:
         Mapping.obj_map[str(id(after_exec))] = after_exec
         obj_dict = {str(id(after_exec)): mapping.synth_obj(after_exec)}
         res["objects"].append(obj_dict)
-        res["algoResult"] = {"id": str(id(after_exec)), "type": str(type(after_exec)), "descr": mapping.synth_obj(after_exec)["repr"]}
+        res["algoResult"] = {str(id(after_exec)): {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec)["repr"]}}
     return res
 
 
