@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css">
+        <script type="text/javascript" src="js/jquery-3.5.0.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+          <template v-for="(child, index) in children">
+              <component :is="child" :key="child.name"></component>
+          </template>
+        </div>
+        <script type="text/javascript" src="js/app-main.js"></script>
+    </body>
+</html>
