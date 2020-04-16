@@ -18,10 +18,11 @@
         <script type="text/javascript">
             let log = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
             console.log(log);
-            let discovered = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {});
+            let discovered = Execute("pm4py.algo.discovery.inductive.factory.apply", [getOneObjectForType("pm4py.objects.log.log.EventLog")], {});
             let net = discovered[0];
             let im = discovered[1];
             let fm = discovered[2];
+            fm = getObjectFromId(fm[0]);
             console.log(net);
             console.log(im);
             console.log(fm);

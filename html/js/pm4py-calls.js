@@ -28,14 +28,14 @@ function Execute(method, args0, kwargs0, retAlgo=false) {
     }
     for (let key in kwargs) {
         if (Array.isArray(kwargs[key])) {
-            kwargs[key] = kwargs[key][0]
+            kwargs[key] = kwargs[key][0];
         }
     }
     let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs}).responseJSON;
     for (let idx in res["objects"]) {
-        objMapping[res["objects"][idx][0]] = res["objects"][idx][1];
+        objMapping[res["objects"][idx][0]] = res["objects"][idx];
     }
-    algoMapping[res["algoResult"][0]] = res["algoResult"][1];
+    algoMapping[res["algoResult"][0]] = res["algoResult"];
     if (retAlgo) {
         return res["algoResult"];
     }
