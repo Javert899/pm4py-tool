@@ -64,3 +64,15 @@ function GetObjectFromName(name) {
     }
     return null;
 }
+
+function GetParentObjectOfType(obj, type) {
+    let i = 0;
+    while (i < obj[1]["obtainedFrom"].length) {
+        let rel_obj = GetObjectFromId(obj[1]["obtainedFrom"][i]);
+        if (rel_obj[1]["type"].includes(type)) {
+            return rel_obj;
+        }
+        i++;
+    }
+    return null;
+}
