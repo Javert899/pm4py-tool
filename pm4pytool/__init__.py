@@ -6,6 +6,13 @@ from flask_cors import CORS
 import uuid
 import json
 
+__version__ = '0.0.1'
+__doc__ = "Process Mining for Python - Interface Tool"
+__author__ = 'PADS'
+__author_email__ = 'a.berti@pads.rwth-aachen.de'
+__maintainer__ = 'PADS'
+__maintainer_email__ = "a.berti@pads.rwth-aachen.de"
+
 app = Flask(__name__, static_url_path='', static_folder="../html")
 app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
                  view_func=app.send_static_file)
