@@ -16,8 +16,17 @@
         <script type="text/javascript" src="js/app-main.js"></script>
         <script type="text/javascript" src="js/pm4py-calls.js"></script>
         <script type="text/javascript">
-            let res = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
-            console.log(res);
+            let log = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
+            console.log(log);
+            let discovered = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {});
+            let net = discovered[0];
+            let im = discovered[1];
+            let fm = discovered[2];
+            console.log(net);
+            console.log(im);
+            console.log(fm);
+            let aligned_traces = Execute("pm4py.algo.conformance.alignments.factory.apply", [log, net, im, fm], {});
+            console.log(aligned_traces);
         </script>
     </body>
 </html>

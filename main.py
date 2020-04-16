@@ -14,13 +14,16 @@ CORS(app)
 
 
 def real_execute(method, args, kwargs):
+    print(method)
+    print(args)
+    print([type(arg) for arg in args])
     after_exec = method(*args, **kwargs)
     res = {"objects": [], "algoResult": {}}
     master_id = str(id(after_exec))
     if type(after_exec) is tuple or type(after_exec) is list:
         childs = []
         for obj in after_exec:
-            Mapping.obj_map[str(id(obj))] = after_exec
+            Mapping.obj_map[str(id(obj))] = obj
             obj_map = [str(id(obj)), mapping.synth_obj(obj, master_id)]
             res["objects"].append(obj_map)
             childs.append(str(id(obj)))

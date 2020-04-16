@@ -16,11 +16,31 @@ function AjaxCall(url, data) {
       return res;
 }
 
-function Execute(method, args, kwargs, retAlgo=false) {
+function Execute(method, args0, kwargs0, retAlgo=false) {
+    let args = args0.slice();
+    let kwargs = Object.assign({}, kwargs0);
+    let i = 0;
+    while (i < args.length) {
+        if (Array.isArray(args[i])) {
+            args[i] = args[i][0];
+        }
+        i++;
+    }
+    for (let key in kwargs) {
+        if (Array.isArray(kwargs[key])) {
+            kwargs[key] = kwargs[key][0]
+        }
+    }
     let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs}).responseJSON;
     for (let idx in res["objects"]) {
         objMapping[res["objects"][idx][0]] = res["objects"][idx][1];
     }
     algoMapping[res["algoResult"][0]] = res["algoResult"][1];
-    return res;
+    if (retAlgo) {
+        return res["algoResult"];
+    }
+    if (res["objects"].length == 1) {
+        return res["objects"][0];
+    }
+    return res["objects"];
 }
