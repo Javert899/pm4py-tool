@@ -13,10 +13,7 @@ app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
 CORS(app)
 
 
-def real_execute(method, args, kwargs):
-    print(method)
-    print(args)
-    print([type(arg) for arg in args])
+def real_execute(method, args, kwargs, obtained_from):
     after_exec = method(*args, **kwargs)
     res = {"objects": [], "algoResult": {}}
     master_id = str(id(after_exec))
@@ -24,19 +21,21 @@ def real_execute(method, args, kwargs):
         childs = []
         for obj in after_exec:
             Mapping.obj_map[str(id(obj))] = obj
-            obj_map = [str(id(obj)), mapping.synth_obj(obj, master_id)]
+            obj_syn = mapping.synth_obj(obj, master_id, obtained_from)
+            obj_map = [str(id(obj)), obj_syn]
             res["objects"].append(obj_map)
             childs.append(str(id(obj)))
         Mapping.obj_map[str(id(after_exec))] = after_exec
-        syn = mapping.synth_algo(method, after_exec)
-        res["algoResult"] = [str(id(after_exec)), {"type": syn[0], "repr": syn[1], "masterId": None, "childs": childs}]
+        syn = mapping.synth_algo(method, after_exec, childs, obtained_from)
+        res["algoResult"] = [str(id(after_exec)), syn]
     else:
         Mapping.obj_map[str(id(after_exec))] = after_exec
-        obj_map = [str(id(after_exec)), mapping.synth_obj(after_exec, master_id)]
+        obj_syn = mapping.synth_obj(after_exec, master_id, obtained_from)
+        obj_map = [str(id(after_exec)), obj_syn]
+        syn = mapping.synth_algo(method, after_exec, [], obtained_from, typ=str(type(after_exec)),
+                                 rep=obj_syn["repr"])
         res["objects"].append(obj_map)
-        res["algoResult"] = [str(id(after_exec)),
-                             {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec, master_id)["repr"],
-                              "masterId": None, "childs": []}]
+        res["algoResult"] = [str(id(after_exec)), syn]
     return res
 
 
@@ -53,6 +52,7 @@ def represent():
         response.set_cookie('session', session)
     return response
 
+
 @app.route('/execute', methods=['POST'])
 def execute():
     content = json.loads(request.data)
@@ -61,14 +61,17 @@ def execute():
     args = content["args"]
     kwargs_id = content["kwargs"]
     kwargs = {x.split("==")[0]: x.split("==")[1] for x in kwargs_id}
+    obtained_from = []
     for i in range(len(args)):
+        obtained_from.append(args[i])
         args[i] = pm4pytool.mapping.get_arg(session, args[i])
     for x in kwargs.keys():
+        obtained_from.append(kwargs[x])
         kwargs[x] = pm4pytool.mapping.get_arg(session, kwargs[x])
     method = eval(method)
     args = tuple(args)
     kwargs = dict(kwargs)
-    res = real_execute(method, args, kwargs)
+    res = real_execute(method, args, kwargs, obtained_from)
     response = jsonify(res)
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
