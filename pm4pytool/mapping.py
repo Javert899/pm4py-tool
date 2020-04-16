@@ -17,7 +17,7 @@ def get_repr(obj, variant, kwargs):
 
 def synth_obj(obj, master_id, obtained_from):
     ret = {"repr": repr(obj), "type": str(type(obj)), "masterId": master_id, "childs": None,
-           "creationTimestamp": time.time(), "preloaded": False, "obtainedFrom": obtained_from}
+           "creationTimestamp": time.time(), "preloaded": False, "shared": False, "obtainedFrom": obtained_from}
     if type(obj) in Mapping.obj_synthesis:
         ret["repr"] = Mapping.obj_synthesis[type(obj)](obj)
     return ret
@@ -30,13 +30,15 @@ def synth_algo(algo, after_exec, childs, obtained_from, typ=None, rep=None):
         else:
             typ, rep = "", "Object: " + str(id(after_exec))
     ret = {"type": typ, "repr": rep, "master_id": None, "childs": childs, "creationTimestamp": time.time(),
-           "preloaded": False, "obtainedFrom": obtained_from}
+           "preloaded": False, "shared": False, "obtainedFrom": obtained_from}
     return ret
 
 
 def get_arg(session, id):
-    if id in Mapping.obj_map:
-        return Mapping.obj_map[id]
-    elif session in Mapping.obj_session_map and id in Mapping.obj_session_map[session]:
+    if session in Mapping.obj_session_map and id in Mapping.obj_session_map[session]:
         return Mapping.obj_session_map[session][id]
+    elif id in Mapping.obj_map:
+        if Mapping.obj_map[id]["preloaded"] or Mapping.obj_map[id]["shared"]:
+            return Mapping.obj_map[id]
+        raise Exception("SecurityCheckFailed")
     return id

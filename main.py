@@ -13,16 +13,20 @@ app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
 CORS(app)
 
 
-def do_result_mapping(after_exec):
+def do_result_mapping(after_exec, session):
+    if session not in Mapping.obj_session_map:
+        Mapping.obj_session_map[session] = {}
     if type(after_exec) is tuple or type(after_exec) is list:
         for obj in after_exec:
             Mapping.obj_map[str(id(obj))] = obj
+            Mapping.obj_session_map[session][str(id(obj))] = obj
     Mapping.obj_map[str(id(after_exec))] = after_exec
+    Mapping.obj_session_map[session][str(id(after_exec))] = after_exec
 
 
-def real_execute(method, args, kwargs, obtained_from):
+def real_execute(method, args, kwargs, obtained_from, session):
     after_exec = method(*args, **kwargs)
-    do_result_mapping(after_exec)
+    do_result_mapping(after_exec, session)
     res = {"objects": [], "algoResult": {}}
     master_id = str(id(after_exec))
     if type(after_exec) is tuple or type(after_exec) is list:
@@ -76,7 +80,7 @@ def execute():
     method = eval(method)
     args = tuple(args)
     kwargs = dict(kwargs)
-    res = real_execute(method, args, kwargs, obtained_from)
+    res = real_execute(method, args, kwargs, obtained_from, session)
     response = jsonify(res)
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
@@ -84,4 +88,4 @@ def execute():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run()
