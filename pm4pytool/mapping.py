@@ -26,12 +26,12 @@ def synth_obj(obj, master_id, obtained_from, preloaded=False):
     return ret
 
 
-def synth_algo(algo, after_exec, childs, obtained_from, typ=None, rep=None, preloaded=False):
+def synth_algo(algo, after_exec, childs, obtained_from, typ=None, rep=None, preloaded=False, suggested_type=""):
     if typ is None:
         if algo in Mapping.algo_synthesis:
             typ, rep = Mapping.algo_synthesis[algo](after_exec)
         else:
-            typ, rep = "", "Object: " + str(id(after_exec))
+            typ, rep = suggested_type, "Object: " + str(id(after_exec))
     ret = {"type": typ, "repr": rep, "master_id": None, "childs": childs, "creationTimestamp": time.time(),
            "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from, "inttype": "algo"}
     return ret

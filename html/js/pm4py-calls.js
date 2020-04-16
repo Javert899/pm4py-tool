@@ -14,7 +14,7 @@ function AjaxCall(url, data) {
       return res;
 }
 
-function Execute(method, args0, kwargs0, retAlgo=false) {
+function Execute(method, args0, kwargs0, retAlgo=false, suggestedType="") {
     let args = args0.slice();
     let kwargs = Object.assign({}, kwargs0);
     let i = 0;
@@ -29,7 +29,7 @@ function Execute(method, args0, kwargs0, retAlgo=false) {
             kwargs[key] = kwargs[key][0];
         }
     }
-    let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs}).responseJSON;
+    let res = AjaxCall('/execute', {"method": method, "args": args, "kwargs": kwargs, "suggested_type": suggestedType}).responseJSON;
     for (let idx in res["objects"]) {
         objMapping[res["objects"][idx][0]] = res["objects"][idx];
     }
@@ -56,12 +56,8 @@ function Repr(obj, variant, kwargs=null) {
 
 function GetCurrMap() {
     let res = AjaxCall("/getCurrMap", {}).responseJSON;
-    console.log("ZZZZ");
-    console.log(res);
     algoMapping = res["algoMapping"];
     objMapping = res["objMapping"];
-    console.log(algoMapping);
-    console.log(objMapping);
 }
 
 GetCurrMap();

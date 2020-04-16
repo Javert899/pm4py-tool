@@ -3,7 +3,7 @@ from pm4pytool import mapping
 from pm4pytool.mapping import Mapping
 
 
-def execute(method, args, kwargs, obtained_from=None, session=None, preloaded=False):
+def execute(method, args, kwargs, obtained_from=None, session=None, preloaded=False, suggested_type=""):
     if session is not None:
         if session not in Mapping.obj_session_map:
             Mapping.obj_session_map[session] = {}
@@ -28,13 +28,14 @@ def execute(method, args, kwargs, obtained_from=None, session=None, preloaded=Fa
             Mapping.obj_dict[str(id(obj))] = [str(id(obj)), obj_syn]
             res["objects"].append(Mapping.obj_dict[str(id(obj))])
             childs.append(str(id(obj)))
-        syn = mapping.synth_algo(method, after_exec, childs, obtained_from, preloaded=preloaded)
+        syn = mapping.synth_algo(method, after_exec, childs, obtained_from, preloaded=preloaded,
+                                 suggested_type=suggested_type)
         Mapping.obj_dict[str(id(after_exec))] = [str(id(after_exec)), syn]
         res["algoResult"] = Mapping.obj_dict[str(id(after_exec))]
     else:
         obj_syn = mapping.synth_obj(after_exec, master_id, obtained_from, preloaded=preloaded)
         syn = mapping.synth_algo(method, after_exec, [], obtained_from, typ=str(type(after_exec)),
-                                 rep=obj_syn["repr"], preloaded=preloaded)
+                                 rep=obj_syn["repr"], preloaded=preloaded, suggested_type=suggested_type)
         Mapping.obj_dict[str(id(after_exec))] = [str(id(after_exec)), syn]
         res["objects"].append(Mapping.obj_dict[str(id(after_exec))])
         res["algoResult"] = Mapping.obj_dict[str(id(after_exec))]

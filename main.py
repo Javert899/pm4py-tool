@@ -61,6 +61,7 @@ def execute_service():
     content = json.loads(request.data)
     session = request.cookies.get('session') if 'session' in request.cookies else str(uuid.uuid4())
     method = content["method"]
+    suggested_type = content["suggested_type"]
     args = content["args"]
     kwargs_id = content["kwargs"]
     kwargs = {x.split("==")[0]: x.split("==")[1] for x in kwargs_id}
@@ -74,7 +75,7 @@ def execute_service():
     method = eval(method)
     args = tuple(args)
     kwargs = dict(kwargs)
-    res = execute(method, args, kwargs, obtained_from=obtained_from, session=session)
+    res = execute(method, args, kwargs, obtained_from=obtained_from, session=session, suggested_type=suggested_type)
     response = jsonify(res)
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
