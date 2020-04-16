@@ -14,7 +14,7 @@ function AjaxCall(url, data) {
       return res;
 }
 
-function Execute(method, args0, kwargs0, suggestedType="", retAlgo=false) {
+function Execute(method, args0, kwargs0, suggestedType="", retAlgo=true) {
     let args = args0.slice();
     let kwargs = Object.assign({}, kwargs0);
     let i = 0;

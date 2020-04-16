@@ -16,7 +16,7 @@ const App = new Vue({
   }
 });
 
-function getOneObjectForType(type) {
+function GetOneObjectForType(type) {
     for (let key in algoMapping) {
         if (algoMapping[key][1]["type"].includes(type)) {
             return algoMapping[key]
@@ -30,7 +30,7 @@ function getOneObjectForType(type) {
     return null;
 }
 
-function getObjectFromId(id) {
+function GetObjectFromId(id) {
     for (let key in algoMapping) {
         if (key == id) {
             return algoMapping[key];
@@ -40,6 +40,20 @@ function getObjectFromId(id) {
         if (key == id) {
             return objMapping[id];
         }
+    }
+    return null;
+}
+
+function GetChilds(obj) {
+    if (obj[1]["childs"] != null) {
+        console.log(obj[1]);
+        let childs = [];
+        let i = 0;
+        while (i < obj[1].childs.length) {
+            childs.push(GetObjectFromId(obj[1].childs[i]));
+            i++;
+        }
+        return childs;
     }
     return null;
 }
