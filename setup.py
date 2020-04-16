@@ -17,7 +17,7 @@ setup(
     author_email=pm4pytool.__author_email__,
     py_modules=[pm4pytool.__name__],
     include_package_data=True,
-    packages=['pm4pytool', 'pm4pytool.objects', 'pm4pytool.objects.event_logs'],
+    packages=['pm4pytool', 'pm4pytool.objects'],
     url='http://www.pm4py.org',
     license='Apache License 2.0',
     install_requires=[
