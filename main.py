@@ -13,23 +13,28 @@ app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
 CORS(app)
 
 
+def do_result_mapping(after_exec):
+    if type(after_exec) is tuple or type(after_exec) is list:
+        for obj in after_exec:
+            Mapping.obj_map[str(id(obj))] = obj
+    Mapping.obj_map[str(id(after_exec))] = after_exec
+
+
 def real_execute(method, args, kwargs, obtained_from):
     after_exec = method(*args, **kwargs)
+    do_result_mapping(after_exec)
     res = {"objects": [], "algoResult": {}}
     master_id = str(id(after_exec))
     if type(after_exec) is tuple or type(after_exec) is list:
         childs = []
         for obj in after_exec:
-            Mapping.obj_map[str(id(obj))] = obj
             obj_syn = mapping.synth_obj(obj, master_id, obtained_from)
             obj_map = [str(id(obj)), obj_syn]
             res["objects"].append(obj_map)
             childs.append(str(id(obj)))
-        Mapping.obj_map[str(id(after_exec))] = after_exec
         syn = mapping.synth_algo(method, after_exec, childs, obtained_from)
         res["algoResult"] = [str(id(after_exec)), syn]
     else:
-        Mapping.obj_map[str(id(after_exec))] = after_exec
         obj_syn = mapping.synth_obj(after_exec, master_id, obtained_from)
         obj_map = [str(id(after_exec)), obj_syn]
         syn = mapping.synth_algo(method, after_exec, [], obtained_from, typ=str(type(after_exec)),
