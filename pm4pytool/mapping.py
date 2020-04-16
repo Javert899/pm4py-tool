@@ -12,16 +12,18 @@ class Mapping:
 
 
 def get_repr(obj, variant, kwargs):
-    if type(obj) in Mapping.representation and variant in Mapping.representation[type(obj)]:
-        return {"repr": Mapping.representation[type(obj)][variant](obj, kwargs)}
+    obj_type = type(obj) if obj is not str else obj
+    if obj_type in Mapping.representation and variant in Mapping.representation[obj_type]:
+        return {"repr": Mapping.representation[obj_type][variant](obj, kwargs)}
     return {"repr": ""}
 
 
 def synth_obj(obj, master_id, obtained_from, preloaded=False):
-    ret = {"repr": repr(obj), "type": str(type(obj)), "masterId": master_id, "childs": None,
+    obj_type = type(obj) if obj is not str else obj
+    ret = {"repr": repr(obj), "type": str(obj_type), "masterId": master_id, "childs": None,
            "creationTimestamp": time.time(), "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from,
            "inttype": "obj"}
-    if type(obj) in Mapping.obj_synthesis:
+    if obj_type in Mapping.obj_synthesis:
         ret["repr"] = Mapping.obj_synthesis[type(obj)](obj)
     return ret
 

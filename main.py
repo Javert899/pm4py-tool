@@ -15,6 +15,15 @@ app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
 CORS(app)
 
 
+def include_key(res, key):
+    obj = Mapping.obj_dict[key]
+    if obj[1]["inttype"] == "algo":
+        res["algoMapping"].append(obj)
+    else:
+        res["objMapping"].append(obj)
+    return res
+
+
 @app.route("/getCurrMap", methods=['POST'])
 def get_curr_map():
     content = json.loads(request.data)
@@ -24,18 +33,10 @@ def get_curr_map():
     if session in Mapping.obj_session_map:
         for key in Mapping.obj_session_map[session]:
             included.add(key)
-            obj = Mapping.obj_dict[key]
-            if obj[1]["inttype"] == "algo":
-                res["algoMapping"].append(obj)
-            else:
-                res["objMapping"].append(obj)
+            res = include_key(res, key)
     for key in Mapping.obj_map:
         if key not in included:
-            obj = Mapping.obj_dict[key]
-            if obj[1]["inttype"] == "algo":
-                res["algoMapping"].append(obj)
-            else:
-                res["objMapping"].append(obj)
+            res = include_key(res, key)
     response = jsonify(res)
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
