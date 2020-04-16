@@ -16,19 +16,24 @@ CORS(app)
 def real_execute(method, args, kwargs):
     after_exec = method(*args, **kwargs)
     res = {"objects": [], "algoResult": {}}
+    master_id = str(id(after_exec))
     if type(after_exec) is tuple or type(after_exec) is list:
+        childs = []
         for obj in after_exec:
             Mapping.obj_map[str(id(obj))] = after_exec
-            obj_map = [str(id(obj)), mapping.synth_obj(obj)]
+            obj_map = [str(id(obj)), mapping.synth_obj(obj, master_id)]
             res["objects"].append(obj_map)
+            childs.append(str(id(obj)))
         Mapping.obj_map[str(id(after_exec))] = after_exec
         syn = mapping.synth_algo(method, after_exec)
-        res["algoResult"] = [str(id(after_exec)), {"type": syn[0], "repr": syn[1]}]
+        res["algoResult"] = [str(id(after_exec)), {"type": syn[0], "repr": syn[1], "masterId": None, "childs": childs}]
     else:
         Mapping.obj_map[str(id(after_exec))] = after_exec
-        obj_map = [str(id(after_exec)), mapping.synth_obj(after_exec)]
+        obj_map = [str(id(after_exec)), mapping.synth_obj(after_exec, master_id)]
         res["objects"].append(obj_map)
-        res["algoResult"] = [str(id(after_exec)), {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec)["repr"]}]
+        res["algoResult"] = [str(id(after_exec)),
+                             {"type": str(type(after_exec)), "repr": mapping.synth_obj(after_exec, master_id)["repr"],
+                              "masterId": None, "childs": []}]
     return res
 
 
@@ -53,6 +58,6 @@ def execute():
         response.set_cookie('session', session)
     return response
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-

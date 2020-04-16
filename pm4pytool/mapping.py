@@ -6,16 +6,17 @@ class Mapping:
     obj_session_map = {}
 
 
-def synth_obj(obj):
+def synth_obj(obj, master_id):
     if type(obj) in Mapping.obj_synthesis:
-        return {"repr": Mapping.obj_synthesis[type(obj)](obj), "type": str(type(obj))}
-    return {"repr": repr(obj), "type": str(type(obj))}
+        return {"repr": Mapping.obj_synthesis[type(obj)](obj), "type": str(type(obj)), "masterId": master_id,
+                "childs": None}
+    return {"repr": repr(obj), "type": str(type(obj)), "masterId": master_id, "childs": None}
 
 
 def synth_algo(algo, after_exec):
     if algo in Mapping.algo_synthesis:
         return Mapping.algo_synthesis[algo](after_exec)
-    return "", "Object: "+str(id(after_exec))
+    return "", "Object: " + str(id(after_exec))
 
 
 def get_arg(session, id):
