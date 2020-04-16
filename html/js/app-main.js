@@ -8,11 +8,14 @@ const App = new Vue({
   el: '#app',
   data: {
     children: [
-    ]
+    ],
+    childrenMap: {
+    }
   },
   methods: {
-    addChildren (comp) {
+    addChildren (name, comp) {
       this.children.push(comp);
+      this.childrenMap[name] = comp;
     },
   }
 });
