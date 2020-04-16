@@ -53,3 +53,15 @@ function Repr(obj, variant, kwargs=null) {
     let res = AjaxCall("/representation", {"obj": obj, "variant": variant, "kwargs": kwargs}).responseJSON;
     return res["repr"];
 }
+
+function GetCurrMap() {
+    let res = AjaxCall("/getCurrMap", {}).responseJSON;
+    console.log("ZZZZ");
+    console.log(res);
+    algoMapping = res["algoMapping"];
+    objMapping = res["objMapping"];
+    console.log(algoMapping);
+    console.log(objMapping);
+}
+
+GetCurrMap();

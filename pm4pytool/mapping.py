@@ -7,6 +7,7 @@ class Mapping:
     representation = {}
     obj_map = {}
     obj_session_map = {}
+    obj_dict = {}
 
 
 def get_repr(obj, variant, kwargs):
@@ -17,7 +18,8 @@ def get_repr(obj, variant, kwargs):
 
 def synth_obj(obj, master_id, obtained_from):
     ret = {"repr": repr(obj), "type": str(type(obj)), "masterId": master_id, "childs": None,
-           "creationTimestamp": time.time(), "preloaded": False, "shared": False, "obtainedFrom": obtained_from}
+           "creationTimestamp": time.time(), "preloaded": False, "shared": False, "obtainedFrom": obtained_from,
+           "inttype": "obj"}
     if type(obj) in Mapping.obj_synthesis:
         ret["repr"] = Mapping.obj_synthesis[type(obj)](obj)
     return ret
@@ -30,7 +32,7 @@ def synth_algo(algo, after_exec, childs, obtained_from, typ=None, rep=None):
         else:
             typ, rep = "", "Object: " + str(id(after_exec))
     ret = {"type": typ, "repr": rep, "master_id": None, "childs": childs, "creationTimestamp": time.time(),
-           "preloaded": False, "shared": False, "obtainedFrom": obtained_from}
+           "preloaded": False, "shared": False, "obtainedFrom": obtained_from, "inttype": "algo"}
     return ret
 
 
