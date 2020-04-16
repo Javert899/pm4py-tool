@@ -28,6 +28,8 @@
             console.log(fm);
             let aligned_traces = Execute("pm4py.algo.conformance.alignments.factory.apply", [log, net, im, fm], {});
             console.log(aligned_traces);
+            let log_repr = Repr(log, "xes");
+            console.log(log_repr);
         </script>
     </body>
 </html>

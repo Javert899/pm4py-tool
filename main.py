@@ -40,6 +40,19 @@ def real_execute(method, args, kwargs):
     return res
 
 
+@app.route("/representation", methods=['POST'])
+def represent():
+    content = json.loads(request.data)
+    session = request.cookies.get('session') if 'session' in request.cookies else str(uuid.uuid4())
+    obj = Mapping.obj_map[content["obj"]]
+    variant = content["variant"]
+    kwargs = content["kwargs"]
+    res = mapping.get_repr(obj, variant, kwargs)
+    response = jsonify(res)
+    if not request.cookies.get('session'):
+        response.set_cookie('session', session)
+    return response
+
 @app.route('/execute', methods=['POST'])
 def execute():
     content = json.loads(request.data)

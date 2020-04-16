@@ -1,7 +1,5 @@
 function AjaxCall(url, data) {
     data = JSON.stringify(data);
-    console.log(data);
-    console.log("xxxx");
       let res = $.ajax({
         url: ServiceUrl + url,
         data: data,
@@ -43,4 +41,15 @@ function Execute(method, args0, kwargs0, retAlgo=false) {
         return res["objects"][0];
     }
     return res["objects"];
+}
+
+function Repr(obj, variant, kwargs=null) {
+    if (kwargs == null) {
+        kwargs = {};
+    }
+    if (Array.isArray(obj)) {
+        obj = obj[0]
+    }
+    let res = AjaxCall("/representation", {"obj": obj, "variant": variant, "kwargs": kwargs}).responseJSON;
+    return res["repr"];
 }
