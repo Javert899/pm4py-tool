@@ -2,6 +2,7 @@ const ServiceUrl = "http://localhost:5000";
 
 let objMapping = {};
 let algoMapping = {};
+let objNames = {};
 
 const App = new Vue({
   el: '#app',
@@ -46,7 +47,6 @@ function GetObjectFromId(id) {
 
 function GetChilds(obj) {
     if (obj[1]["childs"] != null) {
-        console.log(obj[1]);
         let childs = [];
         let i = 0;
         while (i < obj[1].childs.length) {
@@ -54,6 +54,13 @@ function GetChilds(obj) {
             i++;
         }
         return childs;
+    }
+    return null;
+}
+
+function GetObjectFromName(name) {
+    if (objNames[name] != null) {
+        return GetObjectFromId(objNames[name]);
     }
     return null;
 }

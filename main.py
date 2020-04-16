@@ -18,9 +18,9 @@ CORS(app)
 def include_key(res, key):
     obj = Mapping.obj_dict[key]
     if obj[1]["inttype"] == "algo":
-        res["algoMapping"].append(obj)
+        res["algoMapping"][obj[0]] = obj
     else:
-        res["objMapping"].append(obj)
+        res["objMapping"][obj[0]] = obj
     return res
 
 
@@ -28,7 +28,7 @@ def include_key(res, key):
 def get_curr_map():
     content = json.loads(request.data)
     session = request.cookies.get('session') if 'session' in request.cookies else str(uuid.uuid4())
-    res = {"algoMapping": [], "objMapping": []}
+    res = {"algoMapping": {}, "objMapping": {}, "objNames": Mapping.obj_names}
     included = set()
     if session in Mapping.obj_session_map:
         for key in Mapping.obj_session_map[session]:

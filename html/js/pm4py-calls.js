@@ -58,6 +58,7 @@ function GetCurrMap() {
     let res = AjaxCall("/getCurrMap", {}).responseJSON;
     algoMapping = res["algoMapping"];
     objMapping = res["objMapping"];
+    objNames = res["objNames"];
 }
 
 GetCurrMap();

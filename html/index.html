@@ -16,8 +16,13 @@
         <script type="text/javascript" src="js/app-main.js"></script>
         <script type="text/javascript" src="js/pm4py-calls.js"></script>
         <script type="text/javascript">
-            let log = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
-            let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [GetOneObjectForType("pm4py.objects.log.log.EventLog")], {}, suggestedType="AcceptingPetriNet");
+            //let log = Execute("pm4py.objects.log.importer.xes.factory.apply", ["C:/running-example.xes"], {});
+            let log = GetObjectFromName("running-example-log");
+            //let log = GetOneObjectForType("pm4py.objects.log.log.EventLog");
+            console.log(log);
+            console.log(objNames);
+            //let acceptingPetriNet = GetObjectFromName("running-example-petri");
+            let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
             console.log(acceptingPetriNet);
             let netImFm = GetChilds(acceptingPetriNet);
             console.log(netImFm);
