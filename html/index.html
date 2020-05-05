@@ -16,7 +16,13 @@
         <link rel="stylesheet" type="text/css" href="css/pm4py-tool.css">
         <script type="text/javascript" src="js/app-main.js"></script>
         <script type="text/javascript" src="js/pm4py-calls.js"></script>
-        <!--<script type="text/javascript" src="components/xes-viewer.js"></script>
-        <script type="text/javascript" src="examples/example1.js"></script>-->
+        <script type="text/javascript" src="components/xes-viewer.js"></script>
+        <!--<script type="text/javascript" src="examples/example1.js"></script>-->
+        <script type="text/javascript">
+            let log = GetObjectFromName("running-example-log");
+            let log_repr = Repr(log, "xes");
+            console.log(log_repr);
+            InitializeXesViewer(log_repr, name="xesViewer");
+        </script>
     </body>
 </html>
