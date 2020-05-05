@@ -23,6 +23,11 @@
             let log_repr = Repr(log, "xes");
             console.log(log_repr);
             InitializeXesViewer(log_repr, name="xesViewer");
+
+            let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
+            let netImFm = GetChilds(acceptingPetriNet);
+            let petri_repr = Repr(acceptingPetriNet, "pnml");
+            console.log(petri_repr);
         </script>
     </body>
 </html>

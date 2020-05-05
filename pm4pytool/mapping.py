@@ -12,14 +12,14 @@ class Mapping:
 
 
 def get_repr(obj, variant, kwargs):
-    obj_type = type(obj) if obj is not str else obj
+    obj_type = type(obj) if type(obj) is not tuple and type(obj) is not list else type(obj[0])
     if obj_type in Mapping.representation and variant in Mapping.representation[obj_type]:
         return {"repr": Mapping.representation[obj_type][variant](obj, kwargs)}
     return {"repr": ""}
 
 
 def synth_obj(obj, master_id, obtained_from, preloaded=False):
-    obj_type = type(obj) if obj is not str else obj
+    obj_type = type(obj) if type(obj) is not tuple and type(obj) is not list else type(obj[0])
     ret = {"repr": repr(obj), "type": str(obj_type), "masterId": master_id, "childs": None,
            "creationTimestamp": time.time(), "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from,
            "inttype": "obj"}
