@@ -79,3 +79,11 @@ function GetParentObjectOfType(obj, type) {
     }
     return null;
 }
+
+function UpdateCallback(obj) {
+    let i = 0;
+    while (i < obj[1]["depending"].length) {
+        obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
+        i++;
+    }
+}

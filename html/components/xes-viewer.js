@@ -3,6 +3,7 @@ let XesViewer = {
     data: function() {
         return {
             name: '',
+            log: null,
             xesString: ''
         }
     },
@@ -10,14 +11,20 @@ let XesViewer = {
     }
 }
 
-function InitializeXesViewer(log_repr, name="") {
+function InitializeXesViewer(log, name="") {
     let xesViewer = Object.assign({}, XesViewer);
     App.addChildren(name, xesViewer);
     let comp = App.childrenMap[name];
-    comp.data = function() {
-        return {
-            name: name,
-            xesString: log_repr
+    let updateFunction = function(log) {
+        return function() {
+            return {
+                name: name,
+                log: log,
+                xesString: Repr(log, "xes")
+            }
         }
     }
+    console.log(log);
+    log[1]["depending"].push([xesViewer, updateFunction]);
+    xesViewer.data = updateFunction(log);
 }

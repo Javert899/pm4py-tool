@@ -20,11 +20,11 @@
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
             let log = GetObjectFromName("running-example-log");
-            let log_repr = Repr(log, "xes");
-            console.log(log_repr);
-            InitializeXesViewer(log_repr, name="xesViewer");
+            console.log(log);
+            InitializeXesViewer(log, name="xesViewer");
 
             let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
+            console.log(acceptingPetriNet);
             let netImFm = GetChilds(acceptingPetriNet);
             let petri_repr = Repr(acceptingPetriNet, "svg");
             console.log(petri_repr);
