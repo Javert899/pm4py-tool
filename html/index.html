@@ -26,7 +26,7 @@
 
             let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
             let netImFm = GetChilds(acceptingPetriNet);
-            let petri_repr = Repr(acceptingPetriNet, "pnml");
+            let petri_repr = Repr(acceptingPetriNet, "svg");
             console.log(petri_repr);
         </script>
     </body>
