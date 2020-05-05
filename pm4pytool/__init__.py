@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import uuid
 import json
+import os
+import pathlib
+from tempfile import NamedTemporaryFile
+
 
 __version__ = '0.0.1'
 __doc__ = "Process Mining for Python - Interface Tool"
@@ -85,3 +89,20 @@ def execute_service():
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
     return response
+
+
+@app.route("/upload", methods=['POST'])
+def upload():
+    print(request.files)
+    print(request.form)
+    print(request.data)
+
+    for filek in request.files:
+        file = request.files[filek]
+        extension = pathlib.Path(file.filename).suffix
+        temp_file = NamedTemporaryFile(suffix=pathlib.Path(file.filename).suffix)
+        temp_file.close()
+        print(extension)
+        file.save(temp_file.name)
+        print(temp_file.name)
+    return "ciao"

@@ -6,8 +6,11 @@
         <script type="text/javascript" src="http://www.alessandroberti.it/pm4py-tool/js/jquery-3.5.0.js"></script>
         <script type="text/javascript" src="http://www.alessandroberti.it/pm4py-tool/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://www.alessandroberti.it/pm4py-tool/js/vue.js"></script>
+		<script type="text/javascript" src="js/dropzone.min.js"></script>
     </head>
     <body>
+    <div id="myId" class="fallback dropzone">
+    </div>
         <div id="app">
           <template v-for="(child, index) in children">
               <component :is="child" :key="child.name"></component>
@@ -19,9 +22,16 @@
         <script type="text/javascript" src="components/xes-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone("div#myId", {
+                url: "/upload"
+              });
+              myDropzone.on("success", function(response) { alert("FILE UPLOADED"); console.log(response.xhr.responseText); });
+        </script>
+        <script type="text/javascript">
             let log = GetObjectFromName("running-example-log");
             console.log(log);
-            InitializeXesViewer(log, name="xesViewer");
+            //InitializeXesViewer(log, name="xesViewer");
 
             let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
             console.log(acceptingPetriNet);
