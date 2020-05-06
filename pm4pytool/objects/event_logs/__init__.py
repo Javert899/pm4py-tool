@@ -1,1 +1,1 @@
-from pm4pytool.objects.event_logs import representation, synthesis
+from pm4pytool.objects.event_logs import representation, synthesis, importer

@@ -9,8 +9,8 @@
 		<script type="text/javascript" src="js/dropzone.min.js"></script>
     </head>
     <body>
-    <div id="myId" class="fallback dropzone">
-    </div>
+        <div id="uploadZone" class="fallback dropzone" style="display: none">
+        </div>
         <div id="app">
           <template v-for="(child, index) in children">
               <component :is="child" :key="child.name"></component>
@@ -19,15 +19,9 @@
         <link rel="stylesheet" type="text/css" href="css/pm4py-tool.css">
         <script type="text/javascript" src="js/app-main.js"></script>
         <script type="text/javascript" src="js/pm4py-calls.js"></script>
+        <script type="text/javascript" src="js/upload-manager.js"></script>
         <script type="text/javascript" src="components/xes-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
-        <script type="text/javascript">
-            Dropzone.autoDiscover = false;
-            var myDropzone = new Dropzone("div#myId", {
-                url: "/upload"
-              });
-              myDropzone.on("success", function(response) { alert("FILE UPLOADED"); console.log(response.xhr.responseText); });
-        </script>
         <script type="text/javascript">
             let log = GetObjectFromName("running-example-log");
             console.log(log);

@@ -9,6 +9,12 @@ class Mapping:
     obj_session_map = {}
     obj_dict = {}
     obj_names = {}
+    importers = {}
+
+
+def get_importer(extension):
+    if extension in Mapping.importers:
+        return Mapping.importers[extension]
 
 
 def get_repr(obj, variant, kwargs):

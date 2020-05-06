@@ -93,16 +93,13 @@ def execute_service():
 
 @app.route("/upload", methods=['POST'])
 def upload():
-    print(request.files)
-    print(request.form)
-    print(request.data)
-
     for filek in request.files:
         file = request.files[filek]
         extension = pathlib.Path(file.filename).suffix
-        temp_file = NamedTemporaryFile(suffix=pathlib.Path(file.filename).suffix)
-        temp_file.close()
-        print(extension)
-        file.save(temp_file.name)
-        print(temp_file.name)
-    return "ciao"
+        importer = mapping.get_importer(extension)
+        if importer is not None:
+            temp_file = NamedTemporaryFile(suffix=pathlib.Path(file.filename).suffix)
+            temp_file.close()
+            file.save(temp_file.name)
+            return execute.execute(importer[0], [temp_file.name], **importer[1])
+    return ""
