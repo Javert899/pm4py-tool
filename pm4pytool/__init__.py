@@ -106,5 +106,5 @@ def upload():
             temp_file = NamedTemporaryFile(suffix=pathlib.Path(file.filename).suffix)
             temp_file.close()
             file.save(temp_file.name)
-            return execute.execute(eval(importer[0]), [temp_file.name], importer[1])
+            return execute.execute(eval(importer[0]), [temp_file.name], importer[1], suggested_type=importer[2])
     return ""

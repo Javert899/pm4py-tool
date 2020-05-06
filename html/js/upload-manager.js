@@ -7,12 +7,9 @@ function AddWatcher(patterns, method) {
 function CheckWatchers() {
     let i = 0;
     while (i < watchers.length) {
-        console.log(watchers[i]);
         let id_objs = [];
         let j = 0;
         while (j < watchers[i][0].length) {
-            console.log(j);
-            console.log(watchers[i][0]);
             let obj = GetOneObjectForType(watchers[i][0][j]);
             if (obj == null) {
                 break;
@@ -20,7 +17,6 @@ function CheckWatchers() {
             id_objs.push(obj);
             j++;
         }
-        console.log(id_objs);
         if (id_objs.length == watchers[i][0].length) {
             let method = watchers[i][1];
             if (id_objs.length == 1) {
@@ -48,5 +44,6 @@ var myDropzone = new Dropzone("div#uploadZone", {
         objMapping[res["objects"][idx][0]] = res["objects"][idx];
     }
     algoMapping[res["algoResult"][0]] = res["algoResult"];
+
     CheckWatchers();
 });

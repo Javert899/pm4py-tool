@@ -1,5 +1,5 @@
 let XesViewer = {
-    template: "<div>{{ xesString }}</div>",
+    template: "<div id='prova'>{{ xesString }}</div>",
     data: function() {
         return {
             name: '',
@@ -11,7 +11,7 @@ let XesViewer = {
     }
 }
 
-function InitializeXesViewer(log, name="") {
+function InitializeXesViewer(log, name="defaultXesViewer") {
     let xesViewer = Object.assign({}, XesViewer);
     App.addChildren(name, xesViewer);
     let comp = App.childrenMap[name];
