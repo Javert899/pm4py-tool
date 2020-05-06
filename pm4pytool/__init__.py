@@ -10,7 +10,6 @@ import pathlib
 from tempfile import NamedTemporaryFile
 from flask_basicauth import BasicAuth
 
-
 __version__ = '0.0.1'
 __doc__ = "Process Mining for Python - Interface Tool"
 __author__ = 'PADS'
@@ -25,7 +24,9 @@ CORS(app)
 app.config['BASIC_AUTH_USERNAME'] = 'john'
 app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
 app.config['BASIC_AUTH_FORCE'] = True
-#basic_auth = BasicAuth(app)
+
+
+# basic_auth = BasicAuth(app)
 
 
 def include_key(res, key):
@@ -89,7 +90,8 @@ def execute_service():
     method = eval(method)
     args = tuple(args)
     kwargs = dict(kwargs)
-    res = execute.execute(method, args, kwargs, obtained_from=obtained_from, session=session, suggested_type=suggested_type)
+    res = execute.execute(method, args, kwargs, obtained_from=obtained_from, session=session,
+                          suggested_type=suggested_type)
     response = jsonify(res)
     if not request.cookies.get('session'):
         response.set_cookie('session', session)
@@ -98,6 +100,8 @@ def execute_service():
 
 @app.route("/upload", methods=['POST'])
 def upload():
+    session = request.cookies.get('session') if 'session' in request.cookies else str(uuid.uuid4())
+    res = []
     for filek in request.files:
         file = request.files[filek]
         extension = pathlib.Path(file.filename).suffix
@@ -106,5 +110,9 @@ def upload():
             temp_file = NamedTemporaryFile(suffix=pathlib.Path(file.filename).suffix)
             temp_file.close()
             file.save(temp_file.name)
-            return execute.execute(eval(importer[0]), [temp_file.name], importer[1], suggested_type=importer[2])
-    return ""
+            res = execute.execute(eval(importer[0]), [temp_file.name], importer[1], suggested_type=importer[2],
+                                  session=session)
+    response = jsonify(res)
+    if not request.cookies.get('session'):
+        response.set_cookie('session', session)
+    return response

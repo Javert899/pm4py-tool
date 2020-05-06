@@ -24,15 +24,17 @@
         <script type="text/javascript" src="components/petri-svg-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            /*AddWatcher(["EventLog"], function(log) {
+            AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
                 console.log(repr);
-            });*/
-            AddWatcher(["AcceptingPetriNet"], function(netimfm) {
+                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
+                InitializePetriSvgViewer(acceptingPetriNet);
+            });
+            /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
                 let repr = Repr(netimfm, "svg");
                 console.log(repr);
                 InitializePetriSvgViewer(netimfm);
-            });
+            });*/
             //let log = GetObjectFromName("running-example-log");
             //InitializeXesViewer(log, name="xesViewer");
             //let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
