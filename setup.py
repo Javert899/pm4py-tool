@@ -24,7 +24,8 @@ setup(
         "pm4py",
         "Flask",
         "flask-cors",
-        "setuptools"
+        "setuptools",
+        "Flask-BasicAuth"
     ],
     project_urls={
         'Documentation': 'http://pm4py.pads.rwth-aachen.de/documentation/',

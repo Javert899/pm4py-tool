@@ -8,6 +8,7 @@ import json
 import os
 import pathlib
 from tempfile import NamedTemporaryFile
+from flask_basicauth import BasicAuth
 
 
 __version__ = '0.0.1'
@@ -21,6 +22,10 @@ app = Flask(__name__, static_url_path='', static_folder="../html")
 app.add_url_rule(app.static_url_path + '/<path:filename>', endpoint='static',
                  view_func=app.send_static_file)
 CORS(app)
+app.config['BASIC_AUTH_USERNAME'] = 'john'
+app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
+app.config['BASIC_AUTH_FORCE'] = True
+#basic_auth = BasicAuth(app)
 
 
 def include_key(res, key):
