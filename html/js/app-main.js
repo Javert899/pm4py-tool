@@ -5,57 +5,45 @@ let algoMapping = {};
 let objNames = {};
 
 
-Vue.component('tab', {
+let Tab = {
+    template: '<div>CIAO</div>',
+    props: ["isActive", "name"]
+};
 
-    template: '<div v-show="isActive"><slot></slot></div>',
-
-    props: {
-        name: { required: true },
-        selected: { default: false}
-    },
-
-    data() {
-
-        return {
-            isActive: false
-        };
-
-    },
-
-    computed: {
-
-        href() {
-            return '#' + this.name.toLowerCase().replace(/ /g, '-');
-        }
-    },
-
-    mounted() {
-
-        this.isActive = this.selected;
-
-    }
-});
-
-Vue.component('tabs', {
+let Tabs = {
     template: '<div><div class="tabs"><ul><li v-for="tab in tabs"><a v-on:click="selectTab(tab)" href="#">{{tab.name}}</a></li></ul></div><div class="tabs-details"><slot></slot></div></div>',
 
-    data() {
-        return {tabs: [] };
+    data: function() {
+        return {
+            tabs: [],
+            tabsMap: {}
+        };
     },
-
     created() {
-
-        this.tabs = this.$children;
-
+        App.$on('addTab', val => {
+          this.addTab(val[0], val[1]);
+        });
     },
     methods: {
         selectTab(selectedTab) {
             this.tabs.forEach(tab => {
                 tab.isActive = (tab.name == selectedTab.name);
+                alert("AAA");
             });
+        },
+        addTab(name, comp) {
+            this.tabs.push(comp);
+            this.tabsMap[name] = comp;
+
+            console.log(this.tabs.length)
+
+            if (this.tabs.length == 1) {
+                comp.isActive = true;
+                alert("CIAO");
+            }
         }
     }
-});
+};
 
 const App = new Vue({
   el: '#app',
@@ -65,6 +53,9 @@ const App = new Vue({
     childrenMap: {
     }
   },
+    created() {
+        //this.addChildren("tabs", Tabs);
+    },
   methods: {
     addChildren (name, comp) {
       this.children.push(comp);
@@ -72,6 +63,23 @@ const App = new Vue({
     },
   }
 });
+
+App.addChildren("tabs", Tabs);
+
+function AddAndGetTab(name) {
+    let tab = Object.assign({}, Tab);
+    tab.name = name;
+    tab.isActive = false;
+    /*tab.data = function() {
+        return {
+            isActive: false,
+            name: "CIAO"
+        };
+    }*/
+    App.$emit('addTab', [name, tab]);
+    //Tabs.addTab(name, tab);
+    return tab;
+}
 
 function GetOneObjectForType(type) {
     for (let key in algoMapping) {

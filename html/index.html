@@ -12,17 +12,6 @@
         <div id="uploadZone" class="fallback dropzone" style="display: none">
         </div>
         <div id="app">
-            <tabs>
-            <tab name="Services" :selected="true">
-              <h1>What we do</h1>
-            </tab>
-            <tab name="Pricing">
-              <h1>How much we do it for</h1>
-            </tab>
-            <tab name="About Us">
-              <h1>Why we do it</h1>
-            </tab>
-          </tabs>
           <template v-for="(child, index) in children">
               <component :is="child" :key="child.name"></component>
           </template>
@@ -35,12 +24,17 @@
         <script type="text/javascript" src="components/petri-svg-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            AddWatcher(["EventLog"], function(log) {
+            console.log(Tabs);
+            let tab = AddAndGetTab("prova");
+            console.log(tab);
+            console.log(Tabs);
+
+            /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
                 console.log(repr);
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
                 InitializePetriSvgViewer(acceptingPetriNet);
-            });
+            });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
                 let repr = Repr(netimfm, "svg");
                 console.log(repr);
