@@ -26,8 +26,20 @@
         <script type="text/javascript">
             console.log(Tabs);
             let tab = AddAndGetTab("prova");
-            console.log(tab);
-            console.log(Tabs);
+            tab.data = function() {
+                return {
+                    name: "prova",
+                    isActive: true
+                }
+            };
+            tab.template = '<div v-if="isActive">XXX</div>';
+            let tab2 = AddAndGetTab("prova2");
+            tab2.data = function() {
+                return {
+                    name: "prova2",
+                    isActive: false
+                }
+            };
 
             /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");

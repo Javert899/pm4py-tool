@@ -6,12 +6,17 @@ let objNames = {};
 
 
 let Tab = {
-    template: '<div>CIAO</div>',
-    props: ["isActive", "name"]
+    template: '<div v-if="isActive">aaa</div>',
+    data: function() {
+        return {
+            name: "pippo",
+            isActive: false
+        }
+    }
 };
 
 let Tabs = {
-    template: '<div><div class="tabs"><ul><li v-for="tab in tabs"><a v-on:click="selectTab(tab)" href="#">{{tab.name}}</a></li></ul></div><div class="tabs-details"><slot></slot></div></div>',
+    template: '<div><div class="tabs"><ul><li v-for="tab in tabs"><a v-on:click="selectTab(tab)" href="#">{{tab.data().name}}</a></li></ul></div><template v-for="(child, index) in tabs"><component :is="child" :key="child.name"></component></template></div>',
 
     data: function() {
         return {
@@ -26,20 +31,40 @@ let Tabs = {
     },
     methods: {
         selectTab(selectedTab) {
+            console.log(selectedTab);
+            let selectedTabData = selectedTab.data();
             this.tabs.forEach(tab => {
-                tab.isActive = (tab.name == selectedTab.name);
-                alert("AAA");
+                let oldData = tab.data();
+                console.log(oldData.name+" "+selectedTabData.name+" "+(oldData.name == selectedTabData.name))
+                tab.data = function() {
+                    return {
+                        name: oldData.name,
+                        isActive: (oldData.name == selectedTabData.name)
+                    }
+                }
             });
         },
         addTab(name, comp) {
             this.tabs.push(comp);
             this.tabsMap[name] = comp;
 
-            console.log(this.tabs.length)
+            let oldData = comp.data();
 
             if (this.tabs.length == 1) {
-                comp.isActive = true;
-                alert("CIAO");
+                comp.data = function() {
+                    return {
+                        name: oldData.name,
+                        isActive: true
+                    }
+                }
+            }
+            else {
+                comp.data = function() {
+                    return {
+                        name: oldData.name,
+                        isActive: false
+                    }
+                }
             }
         }
     }
@@ -68,14 +93,12 @@ App.addChildren("tabs", Tabs);
 
 function AddAndGetTab(name) {
     let tab = Object.assign({}, Tab);
-    tab.name = name;
-    tab.isActive = false;
-    /*tab.data = function() {
+    tab.data = function() {
         return {
             isActive: false,
-            name: "CIAO"
+            name: name
         };
-    }*/
+    }
     App.$emit('addTab', [name, tab]);
     //Tabs.addTab(name, tab);
     return tab;
