@@ -1,5 +1,5 @@
-let XesViewer = {
-    template: "<div>{{ xesString }}</div>",
+let XesHtmlTable = {
+    template: "<div v-html='xesString'></div>",
     data: function() {
         return {
             name: '',
@@ -11,8 +11,8 @@ let XesViewer = {
     }
 }
 
-function InitializeXesViewer(log, name="defaultXesViewer", target_comp=null) {
-    let xesViewer = Object.assign({}, XesViewer);
+function InitializeXesHtmlViewer(log, name="defaultXesHtmlViewer", target_comp=null) {
+    let xesViewer = Object.assign({}, XesHtmlTable);
     if (target_comp == null) {
         App.addChildren(name, xesViewer);
     }
@@ -25,7 +25,7 @@ function InitializeXesViewer(log, name="defaultXesViewer", target_comp=null) {
             return {
                 name: name,
                 log: log,
-                xesString: Repr(log, "xes")
+                xesString: Repr(log, "html_table")
             }
         }
     }
