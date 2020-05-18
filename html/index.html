@@ -25,9 +25,9 @@
         <script type="text/javascript" src="components/xes-html-table.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            AddTab("prova", active=true);
-            AddTab("prova2", active=false);
-            AddTab("prova3", active=false);
+            AddTab("prova", true);
+            AddTab("prova2", false);
+            AddTab("prova3", false);
 
             //App.$emit("changeActive", "prova2");
 
@@ -35,7 +35,7 @@
                 let repr = Repr(log, "xes");
                 console.log(repr);
                 InitializeXesViewer(log, name="xesViewer", target_comp="prova");
-                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
+                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, "AcceptingPetriNet");
                 //InitializePetriSvgViewer(acceptingPetriNet);
             });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
@@ -47,10 +47,11 @@
 
             $('document').ready(function(){
                 let log = Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/running-example.xes"], {});
-                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
+                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {},"AcceptingPetriNet");
                 let netImFm = GetChilds(acceptingPetriNet);
                 InitializeXesViewer(log, name="xesViewer", target_comp="prova");
                 InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="prova3");
+                Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
                 InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="prova2");
                 let petri_repr = Repr(acceptingPetriNet, "svg");
             });
