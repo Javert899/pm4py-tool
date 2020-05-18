@@ -1,10 +1,10 @@
 from pm4py.objects.log.log import EventLog
 from pm4pytool.mapping import Mapping
-from pm4py.objects.log.exporter.xes import exporter as xes_exporter
+from pm4py.objects.log.exporter.xes.variants import etree_xes_exp
 
 
 def f(log, kwargs):
-    stru = xes_exporter.export_log_as_string(log, **kwargs).decode("utf-8")
+    stru = etree_xes_exp.__export_log_as_string(log, **kwargs).decode("utf-8")
     return stru
 
 

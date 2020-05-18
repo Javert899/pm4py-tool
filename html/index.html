@@ -24,8 +24,8 @@
         <script type="text/javascript" src="components/petri-svg-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            let tab = AddAndGetTab("prova", active=true);
-            let tab2 = AddAndGetTab("prova2", active=false);
+            AddTab("prova", active=true);
+            AddTab("prova2", active=false);
 
             //App.$emit("changeActive", "prova2");
 
@@ -41,7 +41,9 @@
                 InitializePetriSvgViewer(netimfm);
             });*/
             //let log = GetObjectFromName("running-example-log");
-            //InitializeXesViewer(log, name="xesViewer");
+            let log = Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/running-example.xes"], {});
+            console.log(log);
+            InitializeXesViewer(log, name="xesViewer");
             //let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
             //let netImFm = GetChilds(acceptingPetriNet);
             //let petri_repr = Repr(acceptingPetriNet, "svg");

@@ -13,7 +13,9 @@ let XesViewer = {
 
 function InitializeXesViewer(log, name="defaultXesViewer") {
     let xesViewer = Object.assign({}, XesViewer);
-    App.addChildren(name, xesViewer);
+    App.addComponentByName("mainAppComponent", name, xesViewer);
+    //App.$emit("addComponentByName", ["mainAppComponent", name, xesViewer]);
+    //App.addChildren(name, xesViewer);
     let comp = App.childrenMap[name];
     let updateFunction = function(log) {
         return function() {

@@ -4,6 +4,7 @@ let objMapping = {};
 let algoMapping = {};
 let objNames = {};
 
+let tabsMap = {};
 
 let Tab = {
     template: '<div v-if="isActive">{{name}}</div>',
@@ -23,7 +24,6 @@ let Tab = {
     },
     methods: {
         reRender() {
-            console.log(this.name+" "+this.isActive);
             this.$forceUpdate();
         },
         changeActive(val) {
@@ -33,7 +33,6 @@ let Tab = {
             else {
                 this.isActive = false;
             }
-            this.reRender();
         }
     }
 };
@@ -43,16 +42,18 @@ let Tabs = {
 
     data: function() {
         return {
-            tabs: [],
-            tabsMap: {}
+            tabs: []
         };
     },
     created() {
-        App.$on('addTab', val => {
+        App.$on('addTabToTabs', val => {
           this.addTab(val[0], val[1]);
         });
         App.$on("render", val => {
             this.reRender();
+        })
+        App.$on("addComponentByName", val => {
+            this.addComponentByName(val[0], val[1], val[2]);
         })
     },
     methods: {
@@ -62,11 +63,15 @@ let Tabs = {
         selectTab(selectedTab) {
             let selectedTabDataName = selectedTab.data().name;
             App.$emit('changeActive', selectedTabDataName);
-            App.$emit('render', 0);
         },
         addTab(name, comp) {
             this.tabs.push(comp);
-            this.tabsMap[name] = comp;
+            tabsMap[name] = comp;
+        },
+        addComponentByName(target_name, comp_name, comp) {
+            if (target_name == this.name) {
+                this.addTab(comp_name, comp);
+            }
         }
     }
 };
@@ -74,25 +79,30 @@ let Tabs = {
 const App = new Vue({
   el: '#app',
   data: {
+    name: 'mainAppComponent',
     children: [
     ],
     childrenMap: {
     }
   },
     created() {
-        //this.addChildren("tabs", Tabs);
     },
   methods: {
     addChildren (name, comp) {
       this.children.push(comp);
       this.childrenMap[name] = comp;
     },
+    addComponentByName(target_name, comp_name, comp) {
+        if (target_name == this.name) {
+            this.addChildren(comp_name, comp);
+        }
+    }
   }
 });
 
 App.addChildren("tabs", Tabs);
 
-function AddAndGetTab(name, active=false) {
+function AddTab(name, active=false) {
     let tab = Object.assign({}, Tab);
     tab.data = function() {
         return {
@@ -100,7 +110,7 @@ function AddAndGetTab(name, active=false) {
             name: name
         };
     }
-    App.$emit('addTab', [name, tab]);
+    App.$emit('addTabToTabs', [name, tab]);
     return tab;
 }
 
