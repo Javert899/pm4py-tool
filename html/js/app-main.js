@@ -6,11 +6,34 @@ let objNames = {};
 
 
 let Tab = {
-    template: '<div v-if="isActive">aaa</div>',
+    template: '<div v-if="isActive">{{name}}</div>',
     data: function() {
         return {
             name: "pippo",
             isActive: false
+        }
+    },
+    created() {
+        App.$on("render", val => {
+            this.reRender();
+        });
+        App.$on("changeActive", val => {
+            this.changeActive(val);
+        });
+    },
+    methods: {
+        reRender() {
+            console.log(this.name+" "+this.isActive);
+            this.$forceUpdate();
+        },
+        changeActive(val) {
+            if (this.name == val) {
+                this.isActive = true;
+            }
+            else {
+                this.isActive = false;
+            }
+            this.reRender();
         }
     }
 };
@@ -28,44 +51,22 @@ let Tabs = {
         App.$on('addTab', val => {
           this.addTab(val[0], val[1]);
         });
+        App.$on("render", val => {
+            this.reRender();
+        })
     },
     methods: {
+        reRender() {
+            this.$forceUpdate();
+        },
         selectTab(selectedTab) {
-            console.log(selectedTab);
-            let selectedTabData = selectedTab.data();
-            this.tabs.forEach(tab => {
-                let oldData = tab.data();
-                console.log(oldData.name+" "+selectedTabData.name+" "+(oldData.name == selectedTabData.name))
-                tab.data = function() {
-                    return {
-                        name: oldData.name,
-                        isActive: (oldData.name == selectedTabData.name)
-                    }
-                }
-            });
+            let selectedTabDataName = selectedTab.data().name;
+            App.$emit('changeActive', selectedTabDataName);
+            App.$emit('render', 0);
         },
         addTab(name, comp) {
             this.tabs.push(comp);
             this.tabsMap[name] = comp;
-
-            let oldData = comp.data();
-
-            if (this.tabs.length == 1) {
-                comp.data = function() {
-                    return {
-                        name: oldData.name,
-                        isActive: true
-                    }
-                }
-            }
-            else {
-                comp.data = function() {
-                    return {
-                        name: oldData.name,
-                        isActive: false
-                    }
-                }
-            }
         }
     }
 };
@@ -91,16 +92,15 @@ const App = new Vue({
 
 App.addChildren("tabs", Tabs);
 
-function AddAndGetTab(name) {
+function AddAndGetTab(name, active=false) {
     let tab = Object.assign({}, Tab);
     tab.data = function() {
         return {
-            isActive: false,
+            isActive: active,
             name: name
         };
     }
     App.$emit('addTab', [name, tab]);
-    //Tabs.addTab(name, tab);
     return tab;
 }
 

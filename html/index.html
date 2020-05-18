@@ -24,27 +24,15 @@
         <script type="text/javascript" src="components/petri-svg-viewer.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            console.log(Tabs);
-            let tab = AddAndGetTab("prova");
-            tab.data = function() {
-                return {
-                    name: "prova",
-                    isActive: true
-                }
-            };
-            tab.template = '<div v-if="isActive">XXX</div>';
-            let tab2 = AddAndGetTab("prova2");
-            tab2.data = function() {
-                return {
-                    name: "prova2",
-                    isActive: false
-                }
-            };
+            let tab = AddAndGetTab("prova", active=true);
+            let tab2 = AddAndGetTab("prova2", active=false);
+
+            //App.$emit("changeActive", "prova2");
 
             /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
                 console.log(repr);
-                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
+                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
                 InitializePetriSvgViewer(acceptingPetriNet);
             });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
@@ -54,7 +42,7 @@
             });*/
             //let log = GetObjectFromName("running-example-log");
             //InitializeXesViewer(log, name="xesViewer");
-            //let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.factory.apply", [log], {}, suggestedType="AcceptingPetriNet");
+            //let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
             //let netImFm = GetChilds(acceptingPetriNet);
             //let petri_repr = Repr(acceptingPetriNet, "svg");
             //console.log(petri_repr);

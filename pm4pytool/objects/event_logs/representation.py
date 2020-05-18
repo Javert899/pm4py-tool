@@ -1,6 +1,6 @@
 from pm4py.objects.log.log import EventLog
 from pm4pytool.mapping import Mapping
-from pm4py.objects.log.exporter.xes import factory as xes_exporter
+from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 
 
 def f(log, kwargs):
