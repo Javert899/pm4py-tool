@@ -5,13 +5,15 @@ let algoMapping = {};
 let objNames = {};
 
 let tabsMap = {};
+let childsCompMap = {};
 
 let Tab = {
-    template: '<div v-if="isActive">{{name}}</div>',
+    template: '<div v-if="isActive">{{name}}<br /><template v-for="(child, index) in children"><component :is="child" :key="child.name"></component></template></div>',
     data: function() {
         return {
             name: "pippo",
-            isActive: false
+            isActive: false,
+            children: []
         }
     },
     created() {
@@ -21,6 +23,9 @@ let Tab = {
         App.$on("changeActive", val => {
             this.changeActive(val);
         });
+        App.$on("addComponentByName", val => {
+            this.addComponentByName(val[0], val[1], val[2]);
+        })
     },
     methods: {
         reRender() {
@@ -32,6 +37,15 @@ let Tab = {
             }
             else {
                 this.isActive = false;
+            }
+        },
+        addComp(name, comp) {
+            this.children.push(comp);
+            childsCompMap[name] = comp;
+        },
+        addComponentByName(target_name, comp_name, comp) {
+            if (target_name == this.name) {
+                this.addComp(comp_name, comp);
             }
         }
     }
@@ -107,7 +121,8 @@ function AddTab(name, active=false) {
     tab.data = function() {
         return {
             isActive: active,
-            name: name
+            name: name,
+            children: []
         };
     }
     App.$emit('addTabToTabs', [name, tab]);

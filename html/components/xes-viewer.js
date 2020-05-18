@@ -11,11 +11,14 @@ let XesViewer = {
     }
 }
 
-function InitializeXesViewer(log, name="defaultXesViewer") {
+function InitializeXesViewer(log, name="defaultXesViewer", target_comp=null) {
     let xesViewer = Object.assign({}, XesViewer);
-    App.addComponentByName("mainAppComponent", name, xesViewer);
-    //App.$emit("addComponentByName", ["mainAppComponent", name, xesViewer]);
-    //App.addChildren(name, xesViewer);
+    if (target_comp == null) {
+        App.addChildren(name, xesViewer);
+    }
+    else {
+        App.$emit("addComponentByName", [target_comp, name, xesViewer]);
+    }
     let comp = App.childrenMap[name];
     let updateFunction = function(log) {
         return function() {
@@ -26,7 +29,6 @@ function InitializeXesViewer(log, name="defaultXesViewer") {
             }
         }
     }
-    console.log(log);
     log[1]["depending"].push([xesViewer, updateFunction]);
     xesViewer.data = updateFunction(log);
 }

@@ -32,8 +32,9 @@
             /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
                 console.log(repr);
+                InitializeXesViewer(log, name="xesViewer", target_comp="prova");
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
-                InitializePetriSvgViewer(acceptingPetriNet);
+                //InitializePetriSvgViewer(acceptingPetriNet);
             });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
                 let repr = Repr(netimfm, "svg");
@@ -41,13 +42,16 @@
                 InitializePetriSvgViewer(netimfm);
             });*/
             //let log = GetObjectFromName("running-example-log");
-            let log = Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/running-example.xes"], {});
-            console.log(log);
-            InitializeXesViewer(log, name="xesViewer");
-            //let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
-            //let netImFm = GetChilds(acceptingPetriNet);
-            //let petri_repr = Repr(acceptingPetriNet, "svg");
-            //console.log(petri_repr);
+
+            $('document').ready(function(){
+                let log = Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/running-example.xes"], {});
+                let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, suggestedType="AcceptingPetriNet");
+                let netImFm = GetChilds(acceptingPetriNet);
+                InitializeXesViewer(log, name="xesViewer", target_comp="prova");
+                InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="prova2");
+                let petri_repr = Repr(acceptingPetriNet, "svg");
+                console.log(petri_repr);
+            });
         </script>
     </body>
 </html>
