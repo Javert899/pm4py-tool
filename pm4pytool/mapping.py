@@ -28,7 +28,7 @@ def synth_obj(obj, master_id, obtained_from, preloaded=False):
     obj_type = type(obj) if type(obj) is not tuple and type(obj) is not list else type(obj[0])
     ret = {"repr": repr(obj), "type": str(obj_type), "masterId": master_id, "childs": None,
            "creationTimestamp": time.time(), "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from,
-           "inttype": "obj", "depending": []}
+           "inttype": "obj", "depending": [], "methodsAfterUpdate": []}
     if obj_type in Mapping.obj_synthesis:
         ret["repr"] = Mapping.obj_synthesis[type(obj)](obj)
     return ret
@@ -41,7 +41,8 @@ def synth_algo(algo, after_exec, childs, obtained_from, typ=None, rep=None, prel
         else:
             typ, rep = suggested_type, "Object: " + str(id(after_exec))
     ret = {"type": typ, "repr": rep, "master_id": None, "childs": childs, "creationTimestamp": time.time(),
-           "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from, "inttype": "algo", "depending": []}
+           "preloaded": preloaded, "shared": False, "obtainedFrom": obtained_from, "inttype": "algo", "depending": [],
+           "methodsAfterUpdate": []}
     return ret
 
 

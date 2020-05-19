@@ -195,4 +195,9 @@ function UpdateCallback(obj) {
         obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
         i++;
     }
+    let i = 0;
+    while (i < obj[1]["methodsAfterUpdate"].length) {
+        obj[1]["methodsAfterUpdate"][i][0](obj);
+        i++;
+    }
 }
