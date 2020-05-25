@@ -19,7 +19,6 @@ function InitializeXesHtmlViewer(log, name="defaultXesHtmlViewer", target_comp=n
     else {
         App.$emit("addComponentByName", [target_comp, name, xesViewer]);
     }
-    let comp = App.childrenMap[name];
     let updateFunction = function(log) {
         return function() {
             return {

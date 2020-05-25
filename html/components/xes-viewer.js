@@ -19,7 +19,6 @@ function InitializeXesViewer(log, name="defaultXesViewer", target_comp=null) {
     else {
         App.$emit("addComponentByName", [target_comp, name, xesViewer]);
     }
-    let comp = App.childrenMap[name];
     let updateFunction = function(log) {
         return function() {
             return {

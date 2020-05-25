@@ -1,4 +1,5 @@
 import pm4py
+import pm4py.algo.filtering
 from pm4pytool import objects, mapping, execute
 from pm4pytool.mapping import Mapping
 from flask import Flask, request, jsonify
@@ -78,8 +79,7 @@ def execute_service():
     method = content["method"]
     suggested_type = content["suggested_type"]
     args = content["args"]
-    kwargs_id = content["kwargs"]
-    kwargs = {x.split("==")[0]: x.split("==")[1] for x in kwargs_id}
+    kwargs = content["kwargs"]
     obtained_from = []
     for i in range(len(args)):
         obtained_from.append(args[i])

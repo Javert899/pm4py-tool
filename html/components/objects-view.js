@@ -12,14 +12,12 @@ let ObjectsViewViewer = {
 
 function InitializeObjectsView(name="defaultObjectsView", target_comp=null) {
     let objectsView =  Object.assign({}, ObjectsViewViewer);
-        if (target_comp == null) {
+    if (target_comp == null) {
         App.addChildren(name, objectsView);
     }
     else {
         App.$emit("addComponentByName", [target_comp, name, objectsView]);
     }
-    let comp = App.childrenMap[name];
-    console.log(algoMapping);
     let updateFunction = function() {
         return function() {
             return {

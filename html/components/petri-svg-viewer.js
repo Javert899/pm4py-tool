@@ -19,7 +19,6 @@ function InitializePetriSvgViewer(netImFm, name="defaultPetriSvgViewer", target_
     else {
         App.$emit("addComponentByName", [target_comp, name, svgViewer]);
     }
-    let comp = App.childrenMap[name];
     let updateFunction = function(netImFm) {
         return function() {
             return {
