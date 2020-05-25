@@ -17,12 +17,6 @@ let PetriSvgViewer = {
 
 function InitializePetriSvgViewer(netImFm, name="defaultPetriSvgViewer", target_comp=null) {
     let svgViewer = Object.assign({}, PetriSvgViewer);
-    if (target_comp == null) {
-        App.addChildren(name, svgViewer);
-    }
-    else {
-        App.$emit("addComponentByName", [target_comp, name, svgViewer]);
-    }
     let updateFunction = function(netImFm) {
         let svgReprString = Repr(netImFm, "svg");
         return function() {
@@ -35,4 +29,10 @@ function InitializePetriSvgViewer(netImFm, name="defaultPetriSvgViewer", target_
     }
     netImFm[1]["depending"].push([svgViewer, updateFunction]);
     svgViewer.data = updateFunction(netImFm);
+    if (target_comp == null) {
+        App.addChildren(name, svgViewer);
+    }
+    else {
+        App.$emit("addComponentByName", [target_comp, name, svgViewer]);
+    }
 }
