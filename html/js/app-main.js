@@ -40,6 +40,7 @@ let Tab = {
             else {
                 this.isActive = false;
             }
+            //this.reRender();
         },
         addComp(name, comp) {
             this.children.push(comp);
@@ -201,8 +202,6 @@ function UpdateCallback(obj) {
         let comp = childsCompMap[name];
         console.log(comp);
         comp.data = obj[1]["depending"][i][1](obj);
-        //obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
-        //App.$emit("render", obj[1]["depending"][i][0].data().name);
         i++;
     }
     /*i = 0;
@@ -210,5 +209,4 @@ function UpdateCallback(obj) {
         obj[1]["methodsAfterUpdate"][i][0](obj);
         i++;
     }*/
-    App.$emit('render', null);
 }

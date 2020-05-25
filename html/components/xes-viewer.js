@@ -8,16 +8,10 @@ let XesViewer = {
         }
     },
     created() {
-        App.$on("update", val => {
-            if (val[0] == null || val[0] == this.name) {
-                this.performUpdate();
-            }
-        });
+
     },
     methods: {
-        performUpdate() {
-            this.$forceUpdate();
-        }
+
     }
 }
 
@@ -31,7 +25,6 @@ function InitializeXesViewer(log, name="defaultXesViewer", target_comp=null) {
     }
     let updateFunction = function(log) {
         let xesStringRepr = Repr(log, "xes");
-        App.$emit("update", [name, name, log, xesStringRepr]);
         return function() {
             return {
                 name: name,

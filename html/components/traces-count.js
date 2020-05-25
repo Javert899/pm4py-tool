@@ -7,18 +7,10 @@ let TracesCountViewer = {
         }
     },
     created() {
-        App.$on("update", val => {
-            if (val[0] == null || val[0] == this.name) {
-                this.performUpdate(val[1], val[2]);
-            }
-        });
+
     },
     methods: {
-        performUpdate(name, tracesCount) {
-            this.name = name;
-            this.tracesCount = tracesCount;
-            this.$forceUpdate();
-        }
+
     }
 }
 
@@ -27,7 +19,6 @@ function InitializeTracesCountViewer(log, name="defaultTracesCount", target_comp
     let updateFunction = function(log) {
         let trCount = Execute("len", [log], {});
         let trCountRepr = Repr(trCount, "");
-        App.$emit("update", [name, name, trCountRepr]);
         return function() {
             return {
                 name: name,

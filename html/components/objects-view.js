@@ -7,31 +7,16 @@ let ObjectsViewViewer = {
         }
     },
     created() {
-        App.$on("update", val => {
-            if (val[0] == null || val[0] == this.name) {
-                this.performUpdate(val[1], val[2]);
-            }
-        });
+
     },
     methods: {
-        performUpdate(name, algoMapping) {
-            this.name = name;
-            this.algoMapping = algoMapping;
-            this.$forceUpdate();
-        }
+
     }
 }
 
 function InitializeObjectsView(name="defaultObjectsView", target_comp=null) {
     let objectsView =  Object.assign({}, ObjectsViewViewer);
-    if (target_comp == null) {
-        App.addChildren(name, objectsView);
-    }
-    else {
-        App.$emit("addComponentByName", [target_comp, name, objectsView]);
-    }
     let updateFunction = function() {
-        App.$emit("update", [name, name, algoMapping]);
         return function() {
             return {
                 name: name,
@@ -40,4 +25,10 @@ function InitializeObjectsView(name="defaultObjectsView", target_comp=null) {
         }
     }
     objectsView.data = updateFunction();
+    if (target_comp == null) {
+        App.addChildren(name, objectsView);
+    }
+    else {
+        App.$emit("addComponentByName", [target_comp, name, objectsView]);
+    }
 }
