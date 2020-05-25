@@ -50,10 +50,10 @@
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {},"AcceptingPetriNet");
                 let netImFm = GetChilds(acceptingPetriNet);
                 InitializeXesViewer(log, name="xesViewer", target_comp="prova");
-                InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="prova3");
-                Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
                 InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="prova2");
-                let petri_repr = Repr(acceptingPetriNet, "svg");
+                InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="prova3");
+                /*Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
+                let petri_repr = Repr(acceptingPetriNet, "svg");*/
             });
         </script>
     </body>
