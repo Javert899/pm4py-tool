@@ -25,15 +25,15 @@
         <script type="text/javascript" src="components/xes-html-table.js"></script>
         <script type="text/javascript" src="components/objects-view.js"></script>
         <script type="text/javascript" src="components/variants-percentage-filter.js"></script>
+        <script type="text/javascript" src="components/traces-count.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            AddTab("Event Log (XES view)", true);
+            AddTab("Traces Count", true);
+            AddTab("Event Log (XES view)", false);
             AddTab("Inductive Miner", false);
             AddTab("Event Log (HTML table)", false);
             AddTab("Objects List", false);
             AddTab("Variants Filter", false);
-
-            //App.$emit("changeActive", "prova2");
 
             /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
@@ -58,6 +58,7 @@
                 InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="Inductive Miner");
                 InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="Event Log (HTML table)");
                 InitializeVariantsPercentageFilter(log, name="variantsFilter", target_comp="Variants Filter");
+                InitializeTracesCountViewer(log, name="tracesCountViewer", target_comp="Traces Count");
                 /*Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
                 let petri_repr = Repr(acceptingPetriNet, "svg");*/
             });

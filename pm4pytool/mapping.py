@@ -21,7 +21,7 @@ def get_repr(obj, variant, kwargs):
     obj_type = type(obj) if type(obj) is not tuple and type(obj) is not list else type(obj[0])
     if obj_type in Mapping.representation and variant in Mapping.representation[obj_type]:
         return {"repr": Mapping.representation[obj_type][variant](obj, kwargs)}
-    return {"repr": ""}
+    return {"repr": str(obj)}
 
 
 def synth_obj(obj, master_id, obtained_from, preloaded=False):
