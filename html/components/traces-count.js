@@ -17,8 +17,6 @@ let TracesCountViewer = {
         performUpdate(name, tracesCount) {
             this.name = name;
             this.tracesCount = tracesCount;
-            console.log("PERFORM UPDATE")
-            console.log(this.tracesCount);
             this.template = "CIAOCIAO";
             this.$forceUpdate();
         }
