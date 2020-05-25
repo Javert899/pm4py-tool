@@ -29,12 +29,6 @@ let VariantsPercentageFilter = {
 
 function InitializeVariantsPercentageFilter(log, name="defaultXesHtmlViewer", target_comp=null) {
     let variantsPercentageFilter = Object.assign({}, VariantsPercentageFilter);
-    if (target_comp == null) {
-        App.addChildren(name, variantsPercentageFilter);
-    }
-    else {
-        App.$emit("addComponentByName", [target_comp, name, variantsPercentageFilter]);
-    }
     let updateFunction = function(log) {
         App.$emit("update", [name, name, log]);
         return function() {
@@ -45,4 +39,10 @@ function InitializeVariantsPercentageFilter(log, name="defaultXesHtmlViewer", ta
         }
     }
     variantsPercentageFilter.data = updateFunction(log);
+    if (target_comp == null) {
+        App.addChildren(name, variantsPercentageFilter);
+    }
+    else {
+        App.$emit("addComponentByName", [target_comp, name, variantsPercentageFilter]);
+    }
 }

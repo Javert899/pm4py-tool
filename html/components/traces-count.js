@@ -17,7 +17,6 @@ let TracesCountViewer = {
         performUpdate(name, tracesCount) {
             this.name = name;
             this.tracesCount = tracesCount;
-            this.template = "CIAOCIAO";
             this.$forceUpdate();
         }
     }
@@ -25,12 +24,6 @@ let TracesCountViewer = {
 
 function InitializeTracesCountViewer(log, name="defaultTracesCount", target_comp=null) {
     let tracesCountViewer =  Object.assign({}, TracesCountViewer);
-    if (target_comp == null) {
-        App.addChildren(name, tracesCountViewer);
-    }
-    else {
-        App.$emit("addComponentByName", [target_comp, name, tracesCountViewer]);
-    }
     let updateFunction = function(log) {
         let trCount = Execute("len", [log], {});
         let trCountRepr = Repr(trCount, "");
@@ -44,4 +37,10 @@ function InitializeTracesCountViewer(log, name="defaultTracesCount", target_comp
     }
     log[1]["depending"].push([tracesCountViewer, updateFunction]);
     tracesCountViewer.data = updateFunction(log);
+    if (target_comp == null) {
+        App.addChildren(name, tracesCountViewer);
+    }
+    else {
+        App.$emit("addComponentByName", [target_comp, name, tracesCountViewer]);
+    }
 }

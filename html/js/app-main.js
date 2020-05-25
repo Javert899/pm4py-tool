@@ -109,6 +109,7 @@ const App = new Vue({
     addChildren (name, comp) {
       this.children.push(comp);
       this.childrenMap[name] = comp;
+      childsCompMap[name] = comp;
     },
     addComponentByName(target_name, comp_name, comp) {
         if (target_name == this.name) {
@@ -196,14 +197,18 @@ function GetParentObjectOfType(obj, type) {
 function UpdateCallback(obj) {
     let i = 0;
     while (i < obj[1]["depending"].length) {
-        obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
+        let name = obj[1]["depending"][i][0].data().name;
+        let comp = childsCompMap[name];
+        console.log(comp);
+        comp.data = obj[1]["depending"][i][1](obj);
+        //obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
         //App.$emit("render", obj[1]["depending"][i][0].data().name);
         i++;
     }
-    i = 0;
+    /*i = 0;
     while (i < obj[1]["methodsAfterUpdate"].length) {
         obj[1]["methodsAfterUpdate"][i][0](obj);
         i++;
-    }
+    }*/
     App.$emit('render', null);
 }

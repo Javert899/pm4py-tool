@@ -28,12 +28,12 @@
         <script type="text/javascript" src="components/traces-count.js"></script>
         <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
-            AddTab("Traces Count", true);
+            AddTab("Variants Filter", true);
             AddTab("Event Log (XES view)", false);
             AddTab("Inductive Miner", false);
             AddTab("Event Log (HTML table)", false);
             AddTab("Objects List", false);
-            AddTab("Variants Filter", false);
+            AddTab("Traces Count", false);
 
             /*AddWatcher(["EventLog"], function(log) {
                 let repr = Repr(log, "xes");
@@ -54,8 +54,8 @@
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {},"AcceptingPetriNet");
                 let netImFm = GetChilds(acceptingPetriNet);
                 InitializeObjectsView(name="objectsView", target_comp="Objects List");
-                InitializeXesViewer(log, name="xesViewer", target_comp="Event Log (XES view)");
-                InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="Inductive Miner");
+                //InitializeXesViewer(log, name="xesViewer", target_comp="Event Log (XES view)");
+                //InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="Inductive Miner");
                 InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="Event Log (HTML table)");
                 InitializeVariantsPercentageFilter(log, name="variantsFilter", target_comp="Variants Filter");
                 InitializeTracesCountViewer(log, name="tracesCountViewer", target_comp="Traces Count");
