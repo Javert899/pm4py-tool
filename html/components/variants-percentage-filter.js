@@ -6,11 +6,23 @@ let VariantsPercentageFilter = {
             originalLog: null
         }
     },
+    created() {
+        App.$on("update", val => {
+            if (val[0] == null || val[0] == this.name) {
+                this.performUpdate(val[1], val[2]);
+            }
+        });
+    },
     methods: {
         updateLog(percentage) {
             console.log("percentage");
             Execute("pm4py.algo.filtering.log.variants.variants_filter.filter_log_variants_percentage", [this.originalLog], {"percentage": percentage}, "", true, this.originalLog);
             console.log("applied");
+        },
+        performUpdate(name, originalLog) {
+            this.name = name;
+            this.originalLog = originalLog;
+            this.$forceUpdate();
         }
     }
 }
@@ -24,6 +36,7 @@ function InitializeVariantsPercentageFilter(log, name="defaultXesHtmlViewer", ta
         App.$emit("addComponentByName", [target_comp, name, variantsPercentageFilter]);
     }
     let updateFunction = function(log) {
+        App.$emit("update", [name, name, log]);
         return function() {
             return {
                 name: name,

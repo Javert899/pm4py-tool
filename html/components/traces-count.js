@@ -6,7 +6,22 @@ let TracesCountViewer = {
             tracesCount: 0
         }
     },
+    created() {
+        App.$on("update", val => {
+            if (val[0] == null || val[0] == this.name) {
+                this.performUpdate(val[1], val[2]);
+            }
+        });
+    },
     methods: {
+        performUpdate(name, tracesCount) {
+            this.name = name;
+            this.tracesCount = tracesCount;
+            console.log("PERFORM UPDATE")
+            console.log(this.tracesCount);
+            this.template = "CIAOCIAO";
+            this.$forceUpdate();
+        }
     }
 }
 
@@ -21,13 +36,13 @@ function InitializeTracesCountViewer(log, name="defaultTracesCount", target_comp
     let updateFunction = function(log) {
         let trCount = Execute("len", [log], {});
         let trCountRepr = Repr(trCount, "");
-        console.log(trCountRepr);
+        App.$emit("update", [name, name, trCountRepr]);
         return function() {
             return {
                 name: name,
                 tracesCount: trCountRepr
             }
-        }
+         }
     }
     log[1]["depending"].push([tracesCountViewer, updateFunction]);
     tracesCountViewer.data = updateFunction(log);

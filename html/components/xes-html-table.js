@@ -7,7 +7,17 @@ let XesHtmlTable = {
             xesString: ''
         }
     },
+    created() {
+        App.$on("update", val => {
+            if (val[0] == null || val[0] == this.name) {
+                this.performUpdate();
+            }
+        });
+    },
     methods: {
+        performUpdate() {
+            this.$forceUpdate();
+        }
     }
 }
 
@@ -20,11 +30,13 @@ function InitializeXesHtmlViewer(log, name="defaultXesHtmlViewer", target_comp=n
         App.$emit("addComponentByName", [target_comp, name, xesViewer]);
     }
     let updateFunction = function(log) {
+        let xesStringRepr = Repr(log, "html_table");
+        App.$emit("update", [name, name, log, xesStringRepr]);
         return function() {
             return {
                 name: name,
                 log: log,
-                xesString: Repr(log, "html_table")
+                xesString: xesStringRepr
             }
         }
     }

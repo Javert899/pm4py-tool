@@ -18,7 +18,9 @@ let Tab = {
     },
     created() {
         App.$on("render", val => {
-            this.reRender();
+            if (val == null || val == this.name) {
+                this.reRender();
+            }
         });
         App.$on("changeActive", val => {
             this.changeActive(val);
@@ -64,7 +66,9 @@ let Tabs = {
           this.addTab(val[0], val[1]);
         });
         App.$on("render", val => {
-            this.reRender();
+            if (val == null || val == this.name) {
+                this.reRender();
+            }
         })
         App.$on("addComponentByName", val => {
             this.addComponentByName(val[0], val[1], val[2]);
@@ -193,6 +197,7 @@ function UpdateCallback(obj) {
     let i = 0;
     while (i < obj[1]["depending"].length) {
         obj[1]["depending"][i][0].data = obj[1]["depending"][i][1](obj);
+        //App.$emit("render", obj[1]["depending"][i][0].data().name);
         i++;
     }
     i = 0;
@@ -200,4 +205,5 @@ function UpdateCallback(obj) {
         obj[1]["methodsAfterUpdate"][i][0](obj);
         i++;
     }
+    App.$emit('render', null);
 }

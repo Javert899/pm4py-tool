@@ -7,7 +7,20 @@ let PetriSvgViewer = {
             svgString: ''
         }
     },
+    created() {
+        App.$on("update", val => {
+            if (val[0] == null || val[0] == this.name) {
+                this.performUpdate(val[1], val[2], val[3]);
+            }
+        });
+    },
     methods: {
+        performUpdate(name, netImFm, svgString) {
+            this.name = name;
+            this.netImFm = netImFm;
+            this.svgString = svgString;
+            this.$forceUpdate();
+        }
     }
 }
 
@@ -20,11 +33,13 @@ function InitializePetriSvgViewer(netImFm, name="defaultPetriSvgViewer", target_
         App.$emit("addComponentByName", [target_comp, name, svgViewer]);
     }
     let updateFunction = function(netImFm) {
+        let svgReprString = Repr(netImFm, "svg");
+        App.$emit("update", [name, name, netImFm, svgReprString]);
         return function() {
             return {
                 name: name,
                 netImFm: netImFm,
-                svgString: Repr(netImFm, "svg")
+                svgString: svgReprString
             }
         }
     }
