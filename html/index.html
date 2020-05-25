@@ -19,14 +19,13 @@
         <link rel="stylesheet" type="text/css" href="css/pm4py-tool.css">
         <script type="text/javascript" src="js/app-main.js"></script>
         <script type="text/javascript" src="js/pm4py-calls.js"></script>
-        <script type="text/javascript" src="js/upload-manager.js"></script>
+        <!--<script type="text/javascript" src="js/upload-manager.js"></script>-->
         <script type="text/javascript" src="components/xes-viewer.js"></script>
         <script type="text/javascript" src="components/petri-svg-viewer.js"></script>
         <script type="text/javascript" src="components/xes-html-table.js"></script>
         <script type="text/javascript" src="components/objects-view.js"></script>
         <script type="text/javascript" src="components/variants-percentage-filter.js"></script>
         <script type="text/javascript" src="components/traces-count.js"></script>
-        <!--<script type="text/javascript" src="examples/example1.js"></script>-->
         <script type="text/javascript">
             AddTab("Variants Filter", true);
             AddTab("Event Log (XES view)", false);
@@ -40,14 +39,13 @@
                 console.log(repr);
                 InitializeXesViewer(log, name="xesViewer", target_comp="prova");
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, "AcceptingPetriNet");
-                //InitializePetriSvgViewer(acceptingPetriNet);
+                InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet" target_comp="Inductive Miner");
             });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
                 let repr = Repr(netimfm, "svg");
                 console.log(repr);
-                InitializePetriSvgViewer(netimfm);
+                InitializePetriSvgViewer(netimfm, name="acceptingPetriNet" target_comp="Inductive Miner");
             });*/
-            //let log = GetObjectFromName("running-example-log");
 
             $('document').ready(function(){
                 let log = Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/receipt.xes"], {});
