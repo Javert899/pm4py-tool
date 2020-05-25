@@ -1,5 +1,5 @@
 let VariantsPercentageFilter = {
-    template: "<div><button v-on:click='updateLog(0.6)'>Apply Filter</button></div>",
+    template: "<div><input id='percentageFilteringVariantsComponent' type='text'></input><button v-on:click='updateLog()'>Apply Filter</button></div>",
     data: function() {
         return {
             name: '',
@@ -10,8 +10,10 @@ let VariantsPercentageFilter = {
 
     },
     methods: {
-        updateLog(percentage) {
+        updateLog() {
+            let percentage = parseFloat(document.getElementById('percentageFilteringVariantsComponent').value);
             console.log("percentage");
+            console.log(percentage);
             Execute("pm4py.algo.filtering.log.variants.variants_filter.filter_log_variants_percentage", [this.originalLog], {"percentage": percentage}, "", true, this.originalLog);
             console.log("applied");
         }

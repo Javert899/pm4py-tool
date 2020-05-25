@@ -5,8 +5,8 @@ function AddWatcher(patterns, method) {
 }
 
 function CheckWatchers() {
-    let i = 0;
-    while (i < watchers.length) {
+    let i =  watchers.length - 1;
+    while (i >= 0) {
         let id_objs = [];
         let j = 0;
         while (j < watchers[i][0].length) {
@@ -23,7 +23,7 @@ function CheckWatchers() {
                 method(id_objs[0]);
             }
         }
-        i++;
+        i--;
     }
 }
 

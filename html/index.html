@@ -39,12 +39,12 @@
                 console.log(repr);
                 InitializeXesViewer(log, name="xesViewer", target_comp="prova");
                 let acceptingPetriNet = Execute("pm4py.algo.discovery.inductive.algorithm.apply", [log], {}, "AcceptingPetriNet");
-                InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet" target_comp="Inductive Miner");
+                InitializePetriSvgViewer(acceptingPetriNet, name="acceptingPetriNet", target_comp="Inductive Miner");
             });*/
             /*AddWatcher(["AcceptingPetriNet"], function(netimfm) {
                 let repr = Repr(netimfm, "svg");
                 console.log(repr);
-                InitializePetriSvgViewer(netimfm, name="acceptingPetriNet" target_comp="Inductive Miner");
+                InitializePetriSvgViewer(netimfm, name="acceptingPetriNet", target_comp="Inductive Miner");
             });*/
 
             $('document').ready(function(){
@@ -57,8 +57,8 @@
                 InitializeXesHtmlViewer(log, name="xesHtmlViewer", target_comp="Event Log (HTML table)");
                 InitializeVariantsPercentageFilter(log, name="variantsFilter", target_comp="Variants Filter");
                 InitializeTracesCountViewer(log, name="tracesCountViewer", target_comp="Traces Count");
-                /*Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
-                let petri_repr = Repr(acceptingPetriNet, "svg");*/
+                //Execute("pm4py.objects.log.importer.xes.importer.apply", ["C:/reviewing.xes"], {}, "", true, log);
+                //let petri_repr = Repr(acceptingPetriNet, "svg");
             });
         </script>
     </body>
